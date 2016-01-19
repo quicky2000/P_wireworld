@@ -1,0 +1,32 @@
+#-------------------------------------------------------------------------------
+                     P_wireworld
+#-------------------------------------------------------------------------------
+
+P_wireworld is the integration repository of my experiments around wireworld cellular automaton
+For more information please refer to https://www.logre.eu/wiki/Projet_Wireworld
+
+#- Setup project
+#----------------
+. setup.sh
+
+#- Build project
+#----------------
+. build.sh
+
+# Subtrees
+#----------
+git@github.com:quicky2000/EXT_systemc.git
+git@github.com:quicky2000/EXT_xmlParser.git
+git@github.com:quicky2000/lib_bmp.git
+git@github.com:quicky2000/parameter_manager.git
+git@github.com:quicky2000/quicky_exception.git
+git@github.com:quicky2000/quicky_tools.git
+git@github.com:quicky2000/quicky_utils.git
+git@github.com:quicky2000/simple_gui.git
+git@github.com:quicky2000/wireworld.git
+git@github.com:quicky2000/wireworld_common.git
+git@github.com:quicky2000/wireworld_computer.git
+git@github.com:quicky2000/wireworld_systemc.git
+git@github.com:quicky2000/wireworld_tool.git
+
+#EOF
