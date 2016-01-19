@@ -15,18 +15,18 @@ For more information please refer to https://www.logre.eu/wiki/Projet_Wireworld
 
 # Subtrees
 #----------
-git@github.com:quicky2000/EXT_systemc.git
-git@github.com:quicky2000/EXT_xmlParser.git
-git@github.com:quicky2000/lib_bmp.git
-git@github.com:quicky2000/parameter_manager.git
-git@github.com:quicky2000/quicky_exception.git
-git@github.com:quicky2000/quicky_tools.git
-git@github.com:quicky2000/quicky_utils.git
-git@github.com:quicky2000/simple_gui.git
-git@github.com:quicky2000/wireworld.git
-git@github.com:quicky2000/wireworld_common.git
-git@github.com:quicky2000/wireworld_computer.git
-git@github.com:quicky2000/wireworld_systemc.git
-git@github.com:quicky2000/wireworld_tool.git
+git@github.com:quicky2000/EXT_systemc.git        v0.2
+git@github.com:quicky2000/EXT_xmlParser.git      v0.2
+git@github.com:quicky2000/lib_bmp.git            v0.3
+git@github.com:quicky2000/parameter_manager.git  v0.2
+git@github.com:quicky2000/quicky_exception.git   v0.2
+git@github.com:quicky2000/quicky_tools.git       v1.1
+git@github.com:quicky2000/quicky_utils.git       v0.2
+git@github.com:quicky2000/simple_gui.git         v0.2
+git@github.com:quicky2000/wireworld.git          v1.0
+git@github.com:quicky2000/wireworld_common.git   v1.0
+git@github.com:quicky2000/wireworld_computer.git v1.0
+git@github.com:quicky2000/wireworld_systemc.git  v1.0
+git@github.com:quicky2000/wireworld_tool.git     v1.0
 
 #EOF
