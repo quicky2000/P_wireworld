@@ -1,0 +1,78 @@
+eval '(exit $?0)' && eval 'exec perl -S $0 ${1+"$@"}' # -*-perl-*-
+& eval 'exec perl -S $0 $argv:q'
+if 0;
+#-------------------------------------------------------------------------------
+#    This file is part of quicky tools a makefile generator
+#    Copyright (C) 2012  Julien Thevenon ( julien_thevenon at yahoo.fr )
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>
+#-------------------------------------------------------------------------------
+
+use strict;
+
+
+#print "Nb args = $#ARGV\n";
+
+if($#ARGV <0 || $#ARGV > 1 )
+  {
+    die("Usage is search_object.pl object_name [version]");
+  }
+
+if( $ENV{QUICKY_REPOSITORY} eq '')
+  {
+    die("QUICKY_REPOSITORY doesn`t exist");
+  }
+#print "Repository is located in $ENV{QUICKY_REPOSITORY}\n";
+
+my @repository_paths = ("");
+if($ENV{QUICKY_OS} ne "Linux")
+  {
+    @repository_paths = split(/;/,$ENV{QUICKY_REPOSITORY});
+  }
+else
+  {
+    @repository_paths = split(/:/,$ENV{QUICKY_REPOSITORY});
+  }
+
+my $repository_path = "";
+my $search_string = "";
+
+if($#ARGV >=0)
+  {
+    $search_string = $ARGV[0];
+  }
+if($#ARGV ==1 && $ARGV[1] != "dev")
+  {
+    $search_string .= "/".$ARGV[1];
+  }
+
+#print "Search string : $search_string\n" ;
+my $result = "unknown";
+my $index = 0;
+do
+  {
+    my $tmp_path = $repository_paths[$index]."/".$search_string;
+    $tmp_path =~ s/\/\//\//g;
+    #print "Testing $tmp_path\n";
+    if( -d $tmp_path )
+      {
+	if( -f $tmp_path."/infra_infos.txt")
+	  {
+	    $result = $tmp_path;
+	  }
+      }
+    $index++;
+}while($result eq "unknown" && $index <= $#repository_paths);
+
+print "$result\n"

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<generic_definition version ="1.0">
+<origin coord="44,115"/>
+<item_list>
+<item name="delay[0]" e_head="194,-108" e_queue="194,-107"/>
+<item name="delay[1]" e_head="194,-102" e_queue="194,-101"/>
+<item name="delay[2]" e_head="194,-96" e_queue="194,-95"/>
+<item name="delay[3]" e_head="199,-94" e_queue="200,-94"/>
+<item name="delay[4]" e_head="205,-94" e_queue="206,-94"/>
+<item name="delay[5]" e_head="211,-94" e_queue="212,-94"/>
+</item_list>
+</generic_definition>

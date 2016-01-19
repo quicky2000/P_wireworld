@@ -1,0 +1,52 @@
+#! /bin/sh
+#-------------------------------------------------------------------------------
+#    This file is part of quicky tools a makefile generator
+#    Copyright (C) 2012  Julien Thevenon ( julien_thevenon at yahoo.fr )
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>
+#-------------------------------------------------------------------------------
+
+if [ $# -ne 2 ]
+then echo "Usage is :  package <object_name> <version>"
+exit 3
+fi
+
+object_name=$1
+object_version=$2
+
+echo "Object path is $object_name"
+echo "Object version is $object_version"
+
+# Check if file existts
+if [ ! -d $object_name ]
+then
+echo "ERROR : directory $object_name does not exist" > /dev/stderr
+exit 1
+fi
+
+tmp_archive_path=tmp/${object_name}/${object_version}
+echo "Preparing archive path"
+mkdir -p $tmp_archive_path
+
+echo "Extracting archive from mercurial repositorie"
+cd ${object_name} ; hg archive ../${tmp_archive_path} ; cd ..
+
+echo "Creating archive"
+archive_name=${object_name}_${object_version}.tgz
+cd tmp ; tar -zcvf $archive_name * ; mv $archive_name .. ; cd ..
+
+echo "Cleaning"
+\rm -rf tmp
+
+echo "Packaging successfull"

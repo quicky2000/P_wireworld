@@ -1,0 +1,111 @@
+#-------------------------------------------------------------------------------
+#    This file is part of quicky tools a makefile generator
+#    Copyright (C) 2012  Julien Thevenon ( julien_thevenon at yahoo.fr )
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>
+#-------------------------------------------------------------------------------
+# Object location in repository
+#<to_be_defined>_source_dir:=/home/quicky/Bureau/mon_infra/test_makefile/repository/<to_be_defined>
+<to_be_defined>_source_dir:=$(shell search_object <to_be_defined>)
+
+<to_be_defined>_list_makefile:=
+
+# Relative directories
+<to_be_defined>_inc_dir:=$(<to_be_defined>_source_dir)/include
+<to_be_defined>_src_dir:=$(<to_be_defined>_source_dir)/src
+<to_be_defined>_obj_dir:=$(obj_dir)/<to_be_defined>
+<to_be_defined>_infra_dir:=$(infra_dir)/<to_be_defined>
+
+# List of files
+<to_be_defined>_src= $(wildcard $(<to_be_defined>_src_dir)/*.cpp)
+#<to_be_defined>_headers= $(wildcard $(<to_be_defined>_source_dir)/src/*.h)
+<to_be_defined>_headers= $(wildcard $(<to_be_defined>_source_dir)/src/*.h) $(wildcard $(<to_be_defined>_source_dir)/src/*.hpp)
+<to_be_defined>_moc_candidates= $(shell grep -H Q_OBJECT $(<to_be_defined>_inc_dir)/*.h | cut -d":" -f1)
+<to_be_defined>_moc_sources= $(addprefix moc_, $(notdir $(patsubst %.h, %.cpp,$(<to_be_defined>_moc_candidates))))
+ifneq (,$(<to_be_defined>_moc_candidateses))
+$(error "Error empty moc candidates" $(<to_be_defined>_moc_sources))
+endif
+<to_be_defined>_obj=$(notdir  $(patsubst %.cpp, %.o,$(<to_be_defined>_moc_sources))) 
+<to_be_defined>_obj+=$(notdir  $(patsubst %.cpp, %.o,$(<to_be_defined>_src)))
+<to_be_defined>_infra_infos:=$(<to_be_defined>_source_dir)/infra_infos.txt
+ifeq (,$(wildcard $(<to_be_defined>_infra_infos)))
+$(error "Object <to_be_defined> doesn't contain any infra_infos.txt file : $(<to_be_defined>_infra_infos)")
+endif
+
+# Dependancies extraction
+<to_be_defined>_depend_list:= $(shell get_key depend $(<to_be_defined>_infra_infos))
+<to_be_defined>_dep_files:=$(addprefix $(<to_be_defined>_infra_dir)/,$(notdir  $(patsubst %.cpp, %.dep,$(<to_be_defined>_src))))
+
+# Flags extraction
+LDFLAGS+=$(shell get_key LDFLAGS $(<to_be_defined>_infra_infos))
+CFLAGS+=$(shell get_key CFLAGS $(<to_be_defined>_infra_infos))
+
+<to_be_defined>_list_makefile+=$(addsuffix .mk, $(<to_be_defined>_depend_list))
+toto2:=$(filter-out $(sourced_makefile),$(addsuffix .mk, $(<to_be_defined>_depend_list)))
+ifneq (,$(<to_be_defined>_depend_list))
+#-include $(addsuffix .mk, $(addprefix infra/, $(<to_be_defined>_depend_list)))
+-include $(addprefix infra/, $(toto2))
+endif
+
+ifeq ($(words $(<to_be_defined>_list_makefile)),$(words $(foreach a_makefile, $(<to_be_defined>_list_makefile),$(findstring $(a_makefile),$(sourced_makefile)))))
+sourced_makefile+=<to_be_defined>.mk
+toto_sourced_makefile:=$(sort $(sourced_makefile))
+sourced_makefile=$(toto_sourced_makefile)
+ifneq (,$(<to_be_defined>_dep_files))
+-include $(<to_be_defined>_dep_files)
+endif
+endif
+<to_be_defined>_ext_inc_dir := $(<to_be_defined>_inc_dir) $(foreach var_name,$(<to_be_defined>_depend_list) ,$(value $(var_name)_ext_inc_dir))
+<to_be_defined>_eval_result := $(addprefix -I, $(<to_be_defined>_ext_inc_dir))
+
+# Adding list of object files to global list of main target
+objects+=$(addprefix $(<to_be_defined>_obj_dir)/, $(<to_be_defined>_obj))
+
+components+=<to_be_defined>
+
+
+$(<to_be_defined>_obj_dir)/moc_%.cpp: $(<to_be_defined>_inc_dir)/%.h
+	@echo " -> Creating moc file for " $@
+	@ mkdir -p $(<to_be_defined>_obj_dir)
+	@moc $(DEFINES) $(INCPATH) $< -o $@
+
+$(<to_be_defined>_obj_dir)/%.o : $(<to_be_defined>_obj_dir)/%.cpp 
+	@echo " -> Compiling generated file" $@
+	@ mkdir -p $(<to_be_defined>_obj_dir)
+	@g++ -Wall -o $@ -c $< $(CFLAGS) -I$(<to_be_defined>_inc_dir) $(<to_be_defined>_eval_result)
+
+#Generic rule to compile cpp files of this object
+$(<to_be_defined>_obj_dir)/%.o : $(<to_be_defined>_src_dir)/%.cpp 
+	@echo " -> Compiling " $@
+	@ mkdir -p $(<to_be_defined>_obj_dir)
+	@g++ -Wall -o $@ -c $< $(CFLAGS) -I$(<to_be_defined>_inc_dir) $(<to_be_defined>_eval_result)
+
+#Rule to compile dependancies
+$(<to_be_defined>_infra_dir)/%.dep : $(<to_be_defined>_src_dir)/%.cpp  $(<to_be_defined>_infra_infos) #$(addsuffix .mk, $(addprefix infra/, $(<to_be_defined>_depend_list)))
+	@ echo " -> Computing  dependancies for component <to_be_defined> : file $*.cpp"
+	@ mkdir -p $(<to_be_defined>_infra_dir)
+	@g++ -Wall -c $< $(<to_be_defined>_eval_result) $(CFLAGS) -MM -o $@
+	@sed -e "s,$*\.o,obj/<to_be_defined>/$*.o $@,g" -i $@
+
+$(<to_be_defined>_obj_dir): #obj
+	@ echo " -> Preparing  obj component <to_be_defined>"
+	@mkdir -p $@
+
+$(<to_be_defined>_infra_dir): #infra
+	@ echo " -> Preparing  infra component <to_be_defined>"
+	@mkdir -p $@
+
+# target for this object
+#.PHONY : <to_be_defined>
+#<to_be_defined> : $(<to_be_defined>_depend_list) infra/<to_be_defined>.dep $(addprefix $(<to_be_defined>_obj_dir)/, $(<to_be_defined>_obj))

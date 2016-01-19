@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<generic_definition version ="1.0">
+<origin coord="178,182"/>
+<item_list>
+<item name="init_pulse_1" e_head="-8,11" e_queue="-9,11"/>
+<item name="init_pulse_2" e_head="-14,11" e_queue="-15,11"/>
+<item name="init_pulse_3" e_head="-20,11" e_queue="-21,11"/>
+<item name="init_pulse_4" e_head="-26,11" e_queue="-27,11"/>
+<item name="shift_1" e_head="-167,13" e_queue="-168,13"/>
+<item name="shift_2" e_head="-173,13" e_queue="-174,12"/>
+<item name="shift_3" e_head="-173,8" e_queue="-172,9"/>
+<item name="shift_4" e_head="-168,11" e_queue="-167,11"/>
+<item name="shift_5" e_head="-162,11" e_queue="-161,11"/>
+<item name="shift_6" e_head="-156,11" e_queue="-155,11"/>
+<item name="shift_7" e_head="-150,11" e_queue="-149,11"/>
+<item name="shift_8" e_head="-144,11" e_queue="-143,11"/>
+<item name="shift_9" e_head="-138,11" e_queue="-137,11"/>
+<item name="shift_10" e_head="-132,11" e_queue="-131,11"/>
+</item_list>
+</generic_definition>

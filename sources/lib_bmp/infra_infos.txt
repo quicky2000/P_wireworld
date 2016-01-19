@@ -1,0 +1,4 @@
+depend: quicky_utils
+CFLAGS:-Wall -g
+LDFLAGS:
+
