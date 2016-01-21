@@ -27,7 +27,7 @@ int main(int argc,char ** argv)
     {
       wireworld_common::wireworld_configuration l_config;
       wireworld_common::wireworld_types::t_cell_list l_copper_cells;
-      wireworld_common::wireworld_types::t_cell_list l_queue_cells;
+      wireworld_common::wireworld_types::t_cell_list l_tail_cells;
       wireworld_common::wireworld_types::t_cell_list l_electron_cells;
       wireworld_common::wireworld_types::t_cell_list l_inactive_cells;
       wireworld_common::wireworld_types::t_neighbours l_neighbours;
@@ -37,7 +37,7 @@ int main(int argc,char ** argv)
       wireworld_common::wireworld_prepare::prepare(argc,argv,
 						   l_config,
 						   l_copper_cells,
-						   l_queue_cells,
+						   l_tail_cells,
 						   l_electron_cells,
 						   l_inactive_cells,
 						   l_neighbours,
@@ -45,7 +45,7 @@ int main(int argc,char ** argv)
 						   l_y_max);
 
       //Creating world
-      wireworld::wireworld l_world(l_copper_cells,l_electron_cells,l_queue_cells,l_config,l_x_max,l_y_max,l_inactive_cells,l_neighbours);
+      wireworld::wireworld l_world(l_copper_cells,l_electron_cells,l_tail_cells,l_config,l_x_max,l_y_max,l_inactive_cells,l_neighbours);
 
       // Launching simulation
       l_world.run();

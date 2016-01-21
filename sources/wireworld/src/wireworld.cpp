@@ -24,7 +24,7 @@ namespace wireworld
   //------------------------------------------------------------------------------
   wireworld::wireworld(const wireworld_common::wireworld_types::t_cell_list & p_copper_cells,
 		       const wireworld_common::wireworld_types::t_cell_list & p_electron_cells,
-		       const wireworld_common::wireworld_types::t_cell_list & p_queue_cells,
+		       const wireworld_common::wireworld_types::t_cell_list & p_tail_cells,
 		       const wireworld_common::wireworld_configuration & p_conf,
 		       const uint32_t & p_x_max,
 		       const uint32_t & p_y_max,
@@ -36,11 +36,11 @@ namespace wireworld
     m_to_check_cells(new cell*[m_nb_cell]),
     m_electron_cells(new cell*[m_nb_cell]),
     m_futur_electron_cells(new cell*[m_nb_cell]),
-    m_queue_cells(new cell*[m_nb_cell]),
+    m_tail_cells(new cell*[m_nb_cell]),
     m_to_check_start_index(0),
     m_to_check_current_index(0),
     m_electron_current_index(0),
-    m_queue_current_index(0),
+    m_tail_current_index(0),
     m_conf(p_conf),
     m_stop(false),
     m_signal_handler(*this)
@@ -113,19 +113,19 @@ namespace wireworld
 	  }
       }
 
-    //Instantiating queues
-    // It need to be done before electron instaciation because only non queue cellules will need to be checked for the next step
-    for(auto l_iter:p_queue_cells)
+    //Instantiating tails
+    // It need to be done before electron instaciation because only non tail cellules will need to be checked for the next step
+    for(auto l_iter:p_tail_cells)
       {
 	std::map<wireworld_common::wireworld_types::t_coordinates,cell*>::iterator l_bi_iter = l_bidimensionnal_world.find(l_iter);
 	if(l_bi_iter != l_bidimensionnal_world.end())
 	  {
-	    set_queue(l_bi_iter->second);
+	    set_tail(l_bi_iter->second);
 	  }
 	else
 	  {
 	    std::stringstream l_error_msg;
-	    l_error_msg << "You try to put a queue on coordinate(" << l_iter.first << "," << l_iter.second << ") which is not copper" << std::endl ;
+	    l_error_msg << "You try to put a tail on coordinate(" << l_iter.first << "," << l_iter.second << ") which is not copper" << std::endl ;
 	    throw quicky_exception::quicky_logic_exception(l_error_msg.str(),__LINE__,__FILE__);
 	  }
       }
@@ -181,16 +181,16 @@ namespace wireworld
     delete[] m_to_check_cells;
     delete[] m_electron_cells;
     delete[] m_futur_electron_cells;
-    delete[] m_queue_cells;
+    delete[] m_tail_cells;
   }
 
   //------------------------------------------------------------------------------
-  void wireworld::set_queue(cell *p_cell)
+  void wireworld::set_tail(cell *p_cell)
   {
-    m_queue_cells[m_queue_current_index] = p_cell;
-    ++m_queue_current_index;
-    p_cell->become_queue();
-    m_gui.displayQueue(p_cell->getX(),p_cell->getY());
+    m_tail_cells[m_tail_current_index] = p_cell;
+    ++m_tail_current_index;
+    p_cell->become_tail();
+    m_gui.displayTail(p_cell->getX(),p_cell->getY());
   }
 
   //------------------------------------------------------------------------------
@@ -238,27 +238,27 @@ namespace wireworld
 	    SDL_Delay(l_display_duration);
 	  }
 
-	// all queue become copper
-	for(uint32_t l_index = 0 ; l_index < m_queue_current_index; l_index++)
+	// all tail become copper
+	for(uint32_t l_index = 0 ; l_index < m_tail_current_index; l_index++)
 	  {
-	    m_queue_cells[l_index]->become_copper();
-	    m_gui.displayCopper( m_queue_cells[l_index]->getX(), m_queue_cells[l_index]->getY());
+	    m_tail_cells[l_index]->become_copper();
+	    m_gui.displayCopper( m_tail_cells[l_index]->getX(), m_tail_cells[l_index]->getY());
 
 	  }
 
-	// All electron become queues
+	// All electron become tails
 	for(uint32_t l_index = 0 ; l_index < m_electron_current_index; l_index++)
 	  {
-	    m_electron_cells[l_index]->become_queue();
+	    m_electron_cells[l_index]->become_tail();
 	    l_continu = true;
-	    m_gui.displayQueue( m_electron_cells[l_index]->getX(), m_electron_cells[l_index]->getY());
+	    m_gui.displayTail( m_electron_cells[l_index]->getX(), m_electron_cells[l_index]->getY());
 	  }
 
-	// Switching electron and queue arrays
-	m_queue_current_index = m_electron_current_index ;
+	// Switching electron and tail arrays
+	m_tail_current_index = m_electron_current_index ;
 	m_electron_current_index = 0;
-	cell ** l_tmp_cells = m_queue_cells;
-	m_queue_cells = m_electron_cells;
+	cell ** l_tmp_cells = m_tail_cells;
+	m_tail_cells = m_electron_cells;
 	m_electron_cells = l_tmp_cells;
     
 	// Checking cells to become electrons

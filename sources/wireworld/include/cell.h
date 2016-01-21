@@ -33,7 +33,7 @@ namespace wireworld
     inline uint32_t get_nb_neighbour(void)const;
     inline cell* get_neighbour(uint32_t p_index);
     inline void become_electron(void);
-    inline void become_queue(void);
+    inline void become_tail(void);
     inline void checked(void);
     inline void become_copper(void);
 
@@ -46,7 +46,7 @@ namespace wireworld
       inline bool to_be_checked(void)const;
 
   private:
-      typedef enum cell_state {COPPER,QUEUE,ELECTRON} t_cell_state;
+      typedef enum cell_state {COPPER,TAIL,ELECTRON} t_cell_state;
       uint32_t m_x;
       uint32_t m_y;
       t_cell_state m_current_state;
@@ -102,12 +102,12 @@ namespace wireworld
 	}
 
     //--------------------------------------------------------------------------
-    void cell::become_queue(void)
+    void cell::become_tail(void)
 	{
 #ifdef DEBUG
-	  std::cout << "Cell(" << m_x << "," << m_y << ") set as queue" << std::endl;
+	  std::cout << "Cell(" << m_x << "," << m_y << ") set as tail" << std::endl;
 #endif
-	  m_current_state = QUEUE;
+	  m_current_state = TAIL;
 	}
 
     //--------------------------------------------------------------------------
@@ -123,7 +123,7 @@ namespace wireworld
 #ifdef DEBUG
 	  std::cout << "Cell(" << m_x << "," << m_y << ") set as copper" << std::endl;
 #endif
-	  assert(m_current_state = QUEUE);
+	  assert(m_current_state = TAIL);
 	  m_current_state = COPPER;
 	}
 

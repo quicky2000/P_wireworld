@@ -34,7 +34,7 @@ namespace wireworld
   public:
     wireworld(const wireworld_common::wireworld_types::t_cell_list & p_copper_cells,
 	      const wireworld_common::wireworld_types::t_cell_list & p_electron_cells,
-	      const wireworld_common::wireworld_types::t_cell_list & p_queue_cells,
+	      const wireworld_common::wireworld_types::t_cell_list & p_tail_cells,
 	      const wireworld_common::wireworld_configuration & p_conf,
 	      const uint32_t & p_x_max,
 	      const uint32_t & p_y_max,
@@ -44,7 +44,7 @@ namespace wireworld
 
     ~wireworld(void);
 
-    void set_queue(cell *p_cell);
+    void set_tail(cell *p_cell);
     void signal_electron(cell *p_cell);
     void run(void);
 
@@ -58,11 +58,11 @@ namespace wireworld
     cell** m_to_check_cells;
     cell** m_electron_cells;
     cell** m_futur_electron_cells;
-    cell** m_queue_cells;
+    cell** m_tail_cells;
     uint32_t m_to_check_start_index;
     uint32_t m_to_check_current_index;
     uint32_t m_electron_current_index;
-    uint32_t m_queue_current_index;
+    uint32_t m_tail_current_index;
     wireworld_common::wireworld_gui m_gui;
     wireworld_common::wireworld_configuration m_conf;
     bool m_stop;
