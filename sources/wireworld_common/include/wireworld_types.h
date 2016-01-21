@@ -32,7 +32,7 @@ namespace wireworld_common
   {
   public:
     typedef std::pair<uint32_t,uint32_t> t_coordinates;
-    typedef enum class cell_state_t {COPPER=0,QUEUE,ELECTRON} t_cell_state;
+    typedef enum class cell_state_t {COPPER=0,TAIL,ELECTRON} t_cell_state;
     inline static const std::string & cell_state2string(const t_cell_state & p_state);
     typedef std::vector<t_coordinates> t_cell_list;
     typedef std::map<t_coordinates,t_cell_list> t_neighbours;

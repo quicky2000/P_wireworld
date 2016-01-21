@@ -37,7 +37,7 @@ namespace wireworld_common
 			       char ** argv,
 			       wireworld_common::wireworld_configuration & p_config,
 			       wireworld_common::wireworld_types::t_cell_list & p_copper_cells,
-			       wireworld_common::wireworld_types::t_cell_list & p_queue_cells,
+			       wireworld_common::wireworld_types::t_cell_list & p_tail_cells,
 			       wireworld_common::wireworld_types::t_cell_list & p_electron_cells,
 			       wireworld_common::wireworld_types::t_cell_list & p_inactive_cells,
 			       wireworld_common::wireworld_types::t_neighbours & p_neighbours,
@@ -51,7 +51,7 @@ namespace wireworld_common
 				  char ** argv,
 				  wireworld_common::wireworld_configuration & p_config,
 				  wireworld_common::wireworld_types::t_cell_list & p_copper_cells,
-				  wireworld_common::wireworld_types::t_cell_list & p_queue_cells,
+				  wireworld_common::wireworld_types::t_cell_list & p_tail_cells,
 				  wireworld_common::wireworld_types::t_cell_list & p_electron_cells,
 				  wireworld_common::wireworld_types::t_cell_list & p_inactive_cells,
 				  wireworld_common::wireworld_types::t_neighbours & p_neighbours,
@@ -62,7 +62,7 @@ namespace wireworld_common
     wireworld_common::wireworld_parameters::configure(argc,argv,p_config);
 
     wireworld_common::wireworld_types::t_cell_list l_raw_copper_cells;
-    wireworld_common::wireworld_parser::parse(p_config.get_input_file_name(),l_raw_copper_cells,p_queue_cells,p_electron_cells);
+    wireworld_common::wireworld_parser::parse(p_config.get_input_file_name(),l_raw_copper_cells,p_tail_cells,p_electron_cells);
 
     wireworld_common::wireworld_generic_configuration l_generic_config;
     if("" != p_config.get_generic_file_name())
@@ -82,7 +82,7 @@ namespace wireworld_common
 	l_config_parser.parse(l_config_items);
       }
  
-    wireworld_common::wireworld_analyzer::analyze(l_raw_copper_cells,p_queue_cells,p_electron_cells,l_generic_config,l_config_items,p_x_max,p_y_max,p_copper_cells,p_inactive_cells,p_neighbours);
+    wireworld_common::wireworld_analyzer::analyze(l_raw_copper_cells,p_tail_cells,p_electron_cells,l_generic_config,l_config_items,p_x_max,p_y_max,p_copper_cells,p_inactive_cells,p_neighbours);
   }
 }
 

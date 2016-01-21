@@ -31,13 +31,13 @@ namespace wireworld_common
     inline wireworld_gui(void);
     inline void createWindow(uint32_t p_width,uint32_t p_height);
     inline void displayCopper(uint32_t p_x,uint32_t p_y);
-    inline void displayQueue(uint32_t p_x,uint32_t p_y);
+    inline void displayTail(uint32_t p_x,uint32_t p_y);
     inline void displayElectron(uint32_t p_x,uint32_t p_y);
     inline void displayCell(uint32_t p_x,uint32_t p_y,const wireworld_types::t_cell_state & p_state);
 
   private:
     uint32_t m_copper_color;
-    uint32_t m_queue_color;
+    uint32_t m_tail_color;
     uint32_t m_electron_color;
   };
 
@@ -45,7 +45,7 @@ namespace wireworld_common
   wireworld_gui::wireworld_gui(void):
     simple_gui(),
     m_copper_color(0),
-    m_queue_color(0),
+    m_tail_color(0),
     m_electron_color(0)
       {
       }
@@ -55,7 +55,7 @@ namespace wireworld_common
     {
       simple_gui::createWindow(p_width,p_height);
       m_copper_color = getColorCode(255,160,0);
-      m_queue_color = getColorCode(0,160,255);
+      m_tail_color = getColorCode(0,160,255);
       m_electron_color = getColorCode(255,255,255);
     }
 
@@ -66,9 +66,9 @@ namespace wireworld_common
     }
 
     //------------------------------------------------------------------------------
-    void wireworld_gui::displayQueue(uint32_t p_x,uint32_t p_y)
+    void wireworld_gui::displayTail(uint32_t p_x,uint32_t p_y)
     {
-      setPixel(p_x,p_y,m_queue_color);
+      setPixel(p_x,p_y,m_tail_color);
     }
 
     //------------------------------------------------------------------------------
@@ -85,8 +85,8 @@ namespace wireworld_common
 	case wireworld_types::t_cell_state::COPPER:
           setPixel(p_x,p_y,m_copper_color);
 	  break;
-	case wireworld_types::t_cell_state::QUEUE:
-          setPixel(p_x,p_y,m_queue_color);
+	case wireworld_types::t_cell_state::TAIL:
+          setPixel(p_x,p_y,m_tail_color);
 	  break;
 	case wireworld_types::t_cell_state::ELECTRON:
           setPixel(p_x,p_y,m_electron_color);

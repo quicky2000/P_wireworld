@@ -20,6 +20,6 @@
 
 namespace wireworld_common
 {
-  std::string wireworld_types::m_state2string[3] = {"Copper","Queue","Electron"};
+  std::string wireworld_types::m_state2string[3] = {"Copper","Tail","Electron"};
 }
 //EOF

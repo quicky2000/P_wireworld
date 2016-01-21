@@ -67,10 +67,10 @@ namespace wireworld_common
 	const wireworld_generic_item::t_generic_coordinates & l_coord = p_item.get_head_coord();
 	l_item.set_electron_head(l_coord.first + m_origin.first,l_coord.second + m_origin.second);
       }
-   if(p_item.is_queue_defined())
+   if(p_item.is_tail_defined())
       {
-	const wireworld_generic_item::t_generic_coordinates & l_coord = p_item.get_queue_coord();
-	l_item.set_electron_queue(l_coord.first + m_origin.first,l_coord.second + m_origin.second);
+	const wireworld_generic_item::t_generic_coordinates & l_coord = p_item.get_tail_coord();
+	l_item.set_electron_tail(l_coord.first + m_origin.first,l_coord.second + m_origin.second);
       }
    m_items.insert(t_items::value_type(p_item.get_name(),l_item));
     m_item_list.push_back(l_item);

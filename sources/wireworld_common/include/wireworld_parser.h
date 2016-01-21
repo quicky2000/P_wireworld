@@ -32,7 +32,7 @@ namespace wireworld_common
   public:
     inline static void parse(const std::string & p_file_name,
                              std::vector<wireworld_types::t_coordinates > & p_copper_cells,
-                             std::vector<wireworld_types::t_coordinates > & p_queue_cells,
+                             std::vector<wireworld_types::t_coordinates > & p_tail_cells,
                              std::vector<wireworld_types::t_coordinates > & p_electron_cells);
                       
   private:
@@ -41,7 +41,7 @@ namespace wireworld_common
   //----------------------------------------------------------------------------
   void wireworld_parser::parse(const std::string & p_file_name,
                                std::vector<wireworld_types::t_coordinates > & p_copper_cells,
-                               std::vector<wireworld_types::t_coordinates > & p_queue_cells,
+                               std::vector<wireworld_types::t_coordinates > & p_tail_cells,
                                std::vector<wireworld_types::t_coordinates > & p_electron_cells)
   {
     std::ifstream l_input_file(p_file_name.c_str());
@@ -70,7 +70,7 @@ namespace wireworld_common
                     break;
                   case 'Q':
                     p_copper_cells.push_back(std::pair<uint32_t,uint32_t>(l_index,l_nb_line));
-                    p_queue_cells.push_back(std::pair<uint32_t,uint32_t>(l_index,l_nb_line));
+                    p_tail_cells.push_back(std::pair<uint32_t,uint32_t>(l_index,l_nb_line));
                     break;
                   case '#':
                     p_copper_cells.push_back(std::pair<uint32_t,uint32_t>(l_index,l_nb_line));

@@ -31,18 +31,18 @@ namespace wireworld_common
     inline wireworld_generic_item(const std::string & p_name);
     inline const std::string & get_name(void)const;
     inline void set_electron_head(const int & p_x, const int & p_y);
-    inline void set_electron_queue(const int & p_x, const int & p_y);
+    inline void set_electron_tail(const int & p_x, const int & p_y);
     inline bool is_head_defined(void)const;
-    inline bool is_queue_defined(void)const;
+    inline bool is_tail_defined(void)const;
     typedef std::pair<int,int> t_generic_coordinates;
     inline const t_generic_coordinates & get_head_coord(void)const;
-    inline const t_generic_coordinates & get_queue_coord(void)const;
+    inline const t_generic_coordinates & get_tail_coord(void)const;
 
   private:
     std::string m_name;
     bool m_head_defined;
     t_generic_coordinates m_h_coord;
-    bool m_queue_defined;
+    bool m_tail_defined;
     t_generic_coordinates m_q_coord;    
   };
   //----------------------------------------------------------------------------
@@ -52,14 +52,14 @@ namespace wireworld_common
     if(p_item.m_head_defined)
       {
 	p_stream << "HEAD(" << p_item.m_h_coord.first << "," << p_item.m_h_coord.second << ")" ;
-	if(p_item.m_queue_defined)
+	if(p_item.m_tail_defined)
 	  {
 	    p_stream << " ";
 	  }
       }
-    if(p_item.m_queue_defined)
+    if(p_item.m_tail_defined)
       {
-	p_stream << "QUEUE(" << p_item.m_q_coord.first << "," << p_item.m_q_coord.second << ")" ;
+	p_stream << "TAIL(" << p_item.m_q_coord.first << "," << p_item.m_q_coord.second << ")" ;
      }
     p_stream <<  "]" ;
     return p_stream;
@@ -70,7 +70,7 @@ namespace wireworld_common
     m_name(p_name),
     m_head_defined(false),
     m_h_coord(0,0),
-    m_queue_defined(false),
+    m_tail_defined(false),
     m_q_coord(0,0)
   {
   }
@@ -89,9 +89,9 @@ namespace wireworld_common
   }
 
   //----------------------------------------------------------------------------
-  void wireworld_generic_item::set_electron_queue(const int & p_x, const int & p_y)
+  void wireworld_generic_item::set_electron_tail(const int & p_x, const int & p_y)
   {
-    m_queue_defined = true;
+    m_tail_defined = true;
     m_q_coord = t_generic_coordinates(p_x,p_y);
   }
 
@@ -102,9 +102,9 @@ namespace wireworld_common
   }
 
   //----------------------------------------------------------------------------
-  bool wireworld_generic_item::is_queue_defined(void)const
+  bool wireworld_generic_item::is_tail_defined(void)const
   {
-    return m_queue_defined;
+    return m_tail_defined;
   }
 
   //----------------------------------------------------------------------------
@@ -118,9 +118,9 @@ namespace wireworld_common
   }
 
   //----------------------------------------------------------------------------
-  const wireworld_generic_item::t_generic_coordinates & wireworld_generic_item::get_queue_coord(void)const
+  const wireworld_generic_item::t_generic_coordinates & wireworld_generic_item::get_tail_coord(void)const
   {
-    if(!m_queue_defined)
+    if(!m_tail_defined)
       {
 	throw quicky_exception::quicky_logic_exception("Try to access to undefined electron head coordinates for item \""+m_name+"\"",__LINE__,__FILE__);
       }

@@ -150,18 +150,18 @@ namespace wireworld_common
 		extract_coordinates(l_e_head_str,l_x,l_y);
 		l_generic_item.set_electron_head(l_x,l_y);
 	      }
-	    XMLCSTR l_e_queue_str = l_conf_node.getAttribute("e_queue");
-	    if(NULL != l_e_queue_str)
+	    XMLCSTR l_e_tail_str = l_conf_node.getAttribute("e_tail");
+	    if(NULL != l_e_tail_str)
 	      {
 		l_empty_item = false;
 		int l_x = 0;
 		int l_y = 0;
-		extract_coordinates(l_e_queue_str,l_x,l_y);
-		l_generic_item.set_electron_queue(l_x,l_y);
+		extract_coordinates(l_e_tail_str,l_x,l_y);
+		l_generic_item.set_electron_tail(l_x,l_y);
 	      }
 	    if(l_empty_item)
 	      {
-		throw quicky_exception::quicky_logic_exception("Item should contain an attribute \"e_queue\" or an attribure \"e_head\"in file \""+m_file_name+"\"",__LINE__,__FILE__);
+		throw quicky_exception::quicky_logic_exception("Item should contain an attribute \"e_tail\" or an attribure \"e_head\"in file \""+m_file_name+"\"",__LINE__,__FILE__);
 	      }
 	    p_generic_config.add(l_generic_item);
 	  }
@@ -178,16 +178,16 @@ namespace wireworld_common
     size_t l_pos = p_coord_str.find(',');
     if(std::string::npos == l_pos)
       {
-	throw quicky_exception::quicky_logic_exception("Attribute \"e_queue\" should be of the form \"x,y\" : ',' character is missing : \""+p_coord_str+"\" in generic item of file \""+m_file_name+"\"",__LINE__,__FILE__);
+	throw quicky_exception::quicky_logic_exception("Attribute \"e_tail\" should be of the form \"x,y\" : ',' character is missing : \""+p_coord_str+"\" in generic item of file \""+m_file_name+"\"",__LINE__,__FILE__);
       }
     if(!l_pos)
       {
-	throw quicky_exception::quicky_logic_exception("Attribute \"e_queue\" should be of the form \"x,y\" : coordinate is missing before ',' character in : \""+p_coord_str+"\" in generic item of file \""+m_file_name+"\"",__LINE__,__FILE__);
+	throw quicky_exception::quicky_logic_exception("Attribute \"e_tail\" should be of the form \"x,y\" : coordinate is missing before ',' character in : \""+p_coord_str+"\" in generic item of file \""+m_file_name+"\"",__LINE__,__FILE__);
       }
     std::string l_x = p_coord_str.substr(0,l_pos);
     if(p_coord_str.size() -1 == l_pos)
       {
-	throw quicky_exception::quicky_logic_exception("Attribute \"e_queue\" should be of the form \"x,y\" : coordinate is missing after ',' character in : \""+p_coord_str+"\" in generic item of file \""+m_file_name+"\"",__LINE__,__FILE__);
+	throw quicky_exception::quicky_logic_exception("Attribute \"e_tail\" should be of the form \"x,y\" : coordinate is missing after ',' character in : \""+p_coord_str+"\" in generic item of file \""+m_file_name+"\"",__LINE__,__FILE__);
       }
     std::string l_y = p_coord_str.substr(l_pos+1);
     p_x = atoi(l_x.c_str());

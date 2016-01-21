@@ -33,7 +33,7 @@ namespace wireworld_common
   {
   public:
     inline static void analyze(const wireworld_types::t_cell_list & p_raw_copper_cells,
-			       wireworld_types::t_cell_list & p_queue_cells,
+			       wireworld_types::t_cell_list & p_tail_cells,
 			       wireworld_types::t_cell_list & p_electron_cells,
 			       const wireworld_generic_configuration & p_generic_config,
 			       const wireworld_types::t_config_items & p_config_list,
@@ -53,7 +53,7 @@ namespace wireworld_common
 
   //----------------------------------------------------------------------------
   void wireworld_analyzer::analyze(const wireworld_types::t_cell_list & p_raw_copper_cells,
-				   wireworld_types::t_cell_list & p_queue_cells,
+				   wireworld_types::t_cell_list & p_tail_cells,
 				   wireworld_types::t_cell_list & p_electron_cells,
 				   const wireworld_generic_configuration & p_generic_config,
 				   const wireworld_types::t_config_items & p_config_list,
@@ -88,15 +88,15 @@ namespace wireworld_common
 	    throw quicky_exception::quicky_logic_exception("Generic item head "+l_stream.str()+" does not correspond to a copper cell",__LINE__,__FILE__);
 	  }
       }
-      if(l_iter.is_queue_defined())
+      if(l_iter.is_tail_defined())
       {
-	const wireworld_generic_item::t_generic_coordinates & l_gen_coord = l_iter.get_queue_coord();
+	const wireworld_generic_item::t_generic_coordinates & l_gen_coord = l_iter.get_tail_coord();
 	const wireworld_types::t_coordinates l_coord((unsigned int)(l_gen_coord.first),(unsigned int)(l_gen_coord.second));
 	if(l_cells.end() == l_cells.find(l_coord))
 	  {
 	    std::stringstream l_stream;
 	    l_stream << l_iter;
-	    throw quicky_exception::quicky_logic_exception("Generic item queue "+l_stream.str()+" does not correspond to a copper cell",__LINE__,__FILE__);
+	    throw quicky_exception::quicky_logic_exception("Generic item tail "+l_stream.str()+" does not correspond to a copper cell",__LINE__,__FILE__);
 	  }
       }
       if(p_config_list.end() == p_config_list.find(l_iter.get_name()))
@@ -117,11 +117,11 @@ namespace wireworld_common
 	      const wireworld_types::t_coordinates l_coord((unsigned int)(l_gen_coord.first),(unsigned int)(l_gen_coord.second));
 	      p_electron_cells.push_back(l_coord);
 	    }
-	  if(l_generic_item.is_queue_defined())
+	  if(l_generic_item.is_tail_defined())
 	    {
-	      const wireworld_generic_item::t_generic_coordinates & l_gen_coord = l_generic_item.get_queue_coord();
+	      const wireworld_generic_item::t_generic_coordinates & l_gen_coord = l_generic_item.get_tail_coord();
 	      const wireworld_types::t_coordinates l_coord((unsigned int)(l_gen_coord.first),(unsigned int)(l_gen_coord.second));
-	      p_queue_cells.push_back(l_coord);
+	      p_tail_cells.push_back(l_coord);
 	    }
 	}
     }
@@ -183,7 +183,7 @@ namespace wireworld_common
     // Determine active partitions
     t_active_partitions l_active_partitions;
     compute_active_partitions(p_electron_cells,l_cells,l_active_partitions);
-    compute_active_partitions(p_queue_cells,l_cells,l_active_partitions);
+    compute_active_partitions(p_tail_cells,l_cells,l_active_partitions);
     std::cout << "Number of active partitions : " << l_active_partitions.size() << std::endl ;
 
     // Determine with copper cells can become active or not
