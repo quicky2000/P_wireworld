@@ -37,7 +37,7 @@ namespace wireworld_systemc
     SC_HAS_PROCESS(wireworld);
     inline wireworld(sc_module_name p_name,
                      const wireworld_common::wireworld_types::t_cell_list & p_copper_cells,
-                     const wireworld_common::wireworld_types::t_cell_list & p_queue_cells,
+                     const wireworld_common::wireworld_types::t_cell_list & p_tail_cells,
                      const wireworld_common::wireworld_types::t_cell_list & p_electron_cells,
 		     const wireworld_common::wireworld_configuration & p_conf,
 		     const uint32_t & p_x_max,
@@ -70,7 +70,7 @@ namespace wireworld_systemc
     sc_signal<bool> m_clk_sig;
     sc_trace_file *m_trace_file;
     unsigned int m_nb_electron;
-    unsigned int m_nb_queue;
+    unsigned int m_nb_tail;
     sc_signal<uint32_t> m_nb_electron_sig;
     sc_signal<uint32_t> m_generation_sig;
     uint64_t m_generation;
@@ -90,7 +90,7 @@ namespace wireworld_systemc
 	if(m_generation >= m_config.get_start_cycle() && !(m_generation % m_config.get_refresh_interval()))
 	  {
 #ifdef DEBUG_MESSAGES
-	    std::cout << m_generation << " : " << m_nb_electron << "E\t" << m_nb_queue << "Q" << std::endl ;
+	    std::cout << m_generation << " : " << m_nb_electron << "E\t" << m_nb_tail << "Q" << std::endl ;
 #endif // DEBUG_MESSAGES
 	    m_gui.refresh();
 	    SDL_Delay(m_config.get_display_duration());
@@ -99,9 +99,9 @@ namespace wireworld_systemc
         m_nb_electron_sig.write(m_nb_electron);
         m_generation_sig.write(m_generation);
         ++m_generation;
-        if(!m_stop && (m_nb_electron || m_nb_queue) && m_generation <= m_config.get_nb_max_cycle())
+        if(!m_stop && (m_nb_electron || m_nb_tail) && m_generation <= m_config.get_nb_max_cycle())
           {
-            m_nb_queue = m_nb_electron;
+            m_nb_tail = m_nb_electron;
             m_nb_electron = 0;
           }
         else
@@ -121,7 +121,7 @@ namespace wireworld_systemc
   //----------------------------------------------------------------------------
   wireworld::wireworld(sc_module_name p_name,
                        const wireworld_common::wireworld_types::t_cell_list & p_copper_cells,
-                       const wireworld_common::wireworld_types::t_cell_list & p_queue_cells,
+                       const wireworld_common::wireworld_types::t_cell_list & p_tail_cells,
                        const wireworld_common::wireworld_types::t_cell_list & p_electron_cells,
 		       const wireworld_common::wireworld_configuration & p_conf,
 		       const uint32_t & p_x_max,
@@ -151,7 +151,7 @@ namespace wireworld_systemc
       sc_trace(m_trace_file,m_nb_electron_sig,m_nb_electron_sig.name());
       sc_trace(m_trace_file,m_generation_sig,m_generation_sig.name());
 
-      m_nb_queue = p_queue_cells.size();
+      m_nb_tail = p_tail_cells.size();
       m_nb_electron = p_electron_cells.size();
 
       // Create GUI
@@ -159,7 +159,7 @@ namespace wireworld_systemc
 
       // Instanciate cells
       instanciate_cells(p_electron_cells,wireworld_common::wireworld_types::t_cell_state::ELECTRON,p_neighbours);
-      instanciate_cells(p_queue_cells,wireworld_common::wireworld_types::t_cell_state::QUEUE,p_neighbours);
+      instanciate_cells(p_tail_cells,wireworld_common::wireworld_types::t_cell_state::TAIL,p_neighbours);
       instanciate_cells(p_copper_cells,wireworld_common::wireworld_types::t_cell_state::COPPER,p_neighbours);
 
       // Display inactive cells

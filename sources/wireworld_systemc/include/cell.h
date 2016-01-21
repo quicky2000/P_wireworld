@@ -156,7 +156,7 @@ namespace wireworld_systemc
 	      }
 	  }
 	  break;
-	case wireworld_common::wireworld_types::t_cell_state::QUEUE:
+	case wireworld_common::wireworld_types::t_cell_state::TAIL:
 	  m_state = wireworld_common::wireworld_types::t_cell_state::COPPER;
           if(m_gui) m_gui->displayCopper(m_x,m_y);
 #ifdef DEBUG_MESSAGES
@@ -165,8 +165,8 @@ namespace wireworld_systemc
 	  break;
 	case wireworld_common::wireworld_types::t_cell_state::ELECTRON:
 	  m_electron.write(0);
-	  m_state = wireworld_common::wireworld_types::t_cell_state::QUEUE;
-          if(m_gui) m_gui->displayQueue(m_x,m_y);
+	  m_state = wireworld_common::wireworld_types::t_cell_state::TAIL;
+          if(m_gui) m_gui->displayTail(m_x,m_y);
 #ifdef DEBUG_MESSAGES
           std::cout << "Cell(" << m_x << "," << m_y << ") switch to " << wireworld_common::wireworld_types::cell_state2string(m_state) << " @" << sc_time_stamp()  << std::endl ;
 #endif // DEBUG_MESSAGES

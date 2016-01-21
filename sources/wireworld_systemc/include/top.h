@@ -29,7 +29,7 @@ namespace wireworld_systemc
   public:
     top(sc_module_name p_name,
         const std::vector<std::pair<uint32_t,uint32_t> > & p_copper_cells,
-        const std::vector<std::pair<uint32_t,uint32_t> > & p_queue_cells,
+        const std::vector<std::pair<uint32_t,uint32_t> > & p_tail_cells,
         const std::vector<std::pair<uint32_t,uint32_t> > & p_electron_cells,
 	const wireworld_common::wireworld_configuration & p_conf,
 	const uint32_t & p_x_max,
@@ -44,7 +44,7 @@ namespace wireworld_systemc
   //----------------------------------------------------------------------------
   top::top(sc_module_name p_name,
            const std::vector<std::pair<uint32_t,uint32_t> > & p_copper_cells,
-           const std::vector<std::pair<uint32_t,uint32_t> > & p_queue_cells,
+           const std::vector<std::pair<uint32_t,uint32_t> > & p_tail_cells,
            const std::vector<std::pair<uint32_t,uint32_t> > & p_electron_cells,
 	   const wireworld_common::wireworld_configuration & p_conf,
 	   const uint32_t & p_x_max,
@@ -53,7 +53,7 @@ namespace wireworld_systemc
 	   const wireworld_common::wireworld_types::t_neighbours & p_neighbours):
     sc_module(p_name),
     m_clk("clk",10.0,SC_NS,0.5,5.0,SC_NS,true),
-      m_wireworld("wireworld",p_copper_cells,p_queue_cells,p_electron_cells,p_conf,p_x_max,p_y_max,p_inactive_cells,p_neighbours)
+      m_wireworld("wireworld",p_copper_cells,p_tail_cells,p_electron_cells,p_conf,p_x_max,p_y_max,p_inactive_cells,p_neighbours)
     {
       m_wireworld.m_clk(m_clk);
     }
