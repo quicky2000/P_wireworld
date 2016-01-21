@@ -68,7 +68,7 @@ int main(int argc,char ** argv)
 	{
 	  lib_bmp::my_color_alpha l_ref;
 	  lib_bmp::my_color_alpha l_electron(255,255,255,0);
-	  lib_bmp::my_color_alpha l_queue(0,160,255,0);
+	  lib_bmp::my_color_alpha l_tail(0,160,255,0);
 	  lib_bmp::my_color_alpha l_copper(255,160,0,0);
 	  lib_bmp::my_color_alpha l_color = l_bmp.get_pixel_color(l_x,l_y);
 
@@ -83,11 +83,11 @@ int main(int argc,char ** argv)
 	      l_output_text_file << "E" ;
 	      l_output_h_file << "l_electron_cells.push_back(std::pair<uint32_t,uint32_t>(" << l_x << "," << l_y   << "));" << endl ;
 	    }
-	  else if(l_color == l_queue)
+	  else if(l_color == l_tail)
 	    {
 	      l_output_h_file << "l_copper_cells.push_back(std::pair<uint32_t,uint32_t>(" << l_x << "," << l_y   << "));" << endl ;
 	      l_output_text_file << "Q" ;
-	      l_output_h_file << "l_queue_cells.push_back(std::pair<uint32_t,uint32_t>(" << l_x << "," << l_y   << "));" << endl ;
+	      l_output_h_file << "l_tail_cells.push_back(std::pair<uint32_t,uint32_t>(" << l_x << "," << l_y   << "));" << endl ;
 	    }
 	  else if(l_color == l_copper)
 	    {
