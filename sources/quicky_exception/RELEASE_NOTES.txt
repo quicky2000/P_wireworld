@@ -1,0 +1,26 @@
+# For users
+#------------
+
+quicky_exception_v0.3:
+    - None
+
+quicky_exception_v0.2:
+    - Add missing include
+
+quicky_exception_v0.1:
+    - Initial version
+
+# Development flow
+#------------------
+
+quicky_exception_v0.3:
+    - Add support of CMake in CLion
+    - Add Travis continous integration
+
+quicky_exception_v0.2:
+    - None
+
+quicky_exception_v0.1:
+    - Initial version
+
+#EOF
