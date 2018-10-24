@@ -1,0 +1,42 @@
+sudo: required
+dist: trusty
+language: cpp
+compiler:
+  - gcc
+#  - clang
+
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y libsdl1.2-dev
+  - MY_LOCATION=`pwd`
+# SystemC specific part
+#-----------------------
+  - wget http://accellera.org/images/downloads/standards/systemc/systemc-2.3.1.tgz
+  - tar -zxvf systemc-2.3.1.tgz
+  - SYSTEMC_INSTALL=${MY_LOCATION}/systemc_install
+  - export SYSTEMC_INSTALL
+  - mkdir $SYSTEMC_INSTALL
+  - cd systemc-2.3.1
+  - mkdir objdir
+  - cd objdir/
+  - ../configure --prefix=$SYSTEMC_INSTALL
+  - make -j
+  - make install
+# End of SystemC specific part
+#-----------------------
+  - cd $MY_LOCATION
+  - chmod a+x sources/quicky_tools/bin/*
+  - QUICKY_REPOSITORY=`pwd`/sources
+  - export QUICKY_REPOSITORY
+  - cd $QUICKY_REPOSITORY/quicky_tools/setup
+  - . setup.sh
+  - cd $MY_LOCATION
+# SystemC part
+  - LD_LIBRARY_PATH=$SYSTEMC_INSTALL/lib-linux64:$LD_LIBRARY_PATH
+  - export LD_LIBRARY_PATH
+
+script:
+# Build
+  - . build.sh
+#EOF
