@@ -19,13 +19,15 @@
 
 #ifndef PARAMETER_IF_H
 #define PARAMETER_IF_H
-#include <stdint.h>
-#include <stdlib.h>
-#include <assert.h>
+#include "quicky_exception.h"
+#include <cstdint>
+#include <cstdlib>
+#include <cassert>
 #include <string>
 #include <vector>
 #include <map>
 #include <iostream>
+#include <algorithm>
 
 namespace parameter_manager
 {
@@ -88,9 +90,60 @@ namespace parameter_manager
       }
 
     //----------------------------------------------------------------------------
-    template <> uint32_t parameter_if::get_value(void)const
+    template <> int parameter_if::get_value(void)const
       {
-	return (uint32_t)atoi(m_text_value.c_str());
+	return stoi(m_text_value,nullptr,10);
+      }
+
+    //----------------------------------------------------------------------------
+    template <> unsigned int parameter_if::get_value(void)const
+      {
+	return stoul(m_text_value,nullptr,10);
+      }
+
+    //----------------------------------------------------------------------------
+    template <> unsigned long long int parameter_if::get_value(void)const
+      {
+	return stoull(m_text_value,nullptr,10);
+      }
+
+    //----------------------------------------------------------------------------
+    template <> float parameter_if::get_value(void)const
+      {
+	return stof(m_text_value);
+      }
+
+    //----------------------------------------------------------------------------
+    template <> double parameter_if::get_value(void)const
+      {
+	return stod(m_text_value);
+      }
+
+    //----------------------------------------------------------------------------
+    template <> bool parameter_if::get_value(void)const
+      {
+	if("1" == m_text_value)
+	  {
+	    return true;
+	  }
+	else if("0" == m_text_value)
+	  {
+	    return false;
+	  }
+	else
+	  {
+	    std::string l_lower_text_value = m_text_value;
+	    std::transform(m_text_value.begin(), m_text_value.end(),l_lower_text_value.begin(),(int(*)(int)) std::tolower);
+	    if("yes" == l_lower_text_value || "true" == l_lower_text_value)
+	      {
+		return true;
+	      }
+	    else if("no" == l_lower_text_value || "false" == l_lower_text_value)
+	      {
+		return false;
+	      }
+	  }
+	throw quicky_exception::quicky_logic_exception("Parameter \"" + m_name + "\" value \"" + m_text_value + "\" is not a valid bool value : true, false, yes, no, 0, 1",__LINE__,__FILE__);
       }
 }
 #endif // PARAMETER_IF_H

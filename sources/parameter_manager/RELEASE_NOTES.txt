@@ -1,0 +1,26 @@
+# For users
+#------------
+
+parameter_manager_v0.3:
+    - Add support of unsigned int, boolean, double and float parameters
+
+parameter_manager_v0.2:
+    - Add check of mandatory parameters number
+
+parameter_manager_v0.1:
+    - Initial version
+
+# Development flow
+#------------------
+
+parameter_manager_v0.3:
+    - Add support of CMake in CLion
+    - Add Travis continous integration
+
+parameter_manager_v0.2:
+    - Migration from Mercurial to Git
+
+parameter_manager_v0.1:
+    - Initial version
+
+#EOF
