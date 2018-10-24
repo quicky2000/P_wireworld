@@ -1,0 +1,42 @@
+sudo: required
+dist: trusty
+language: cpp
+compiler:
+  - gcc
+#  - clang
+
+
+before_install:
+  - MY_LOCATION=`pwd`
+  - mkdir ../repositories
+  - cd ..
+  - mv $MY_LOCATION repositories
+  - QUICKY_REPOSITORY=`pwd`/repositories
+  - export QUICKY_REPOSITORY
+  - MY_LOCATION=`pwd`
+  - wget http://accellera.org/images/downloads/standards/systemc/systemc-2.3.1.tgz
+  - tar -zxvf systemc-2.3.1.tgz
+  - cd systemc-2.3.1
+  - SYSTEMC_INSTALL=`pwd`
+  - export SYSTEMC_INSTALL
+  - mkdir objdir
+  - cd objdir/
+  - ../configure
+  - make -j
+  - make install
+  - LD_LIBRARY_PATH=${SYSTEMC_INSTALL}/lib-linux64:${LD_LIBRARY_PATH}
+  - export LD_LIBRARY_PATH
+  - cd $MY_LOCATION/repositories
+  - git clone https://github.com/quicky2000/quicky_tools.git
+  - cd quicky_tools/setup
+  - . setup.sh
+  - cd $MY_LOCATION
+  - chmod a+x repositories/quicky_tools/bin/*
+  - mkdir build
+  - cd build
+
+script:
+  - generate_makefile EXT_systemc
+  - make test
+  - ./bin/EXT_systemc.exe
+#EOF

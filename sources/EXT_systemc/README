@@ -1,4 +1,8 @@
 Quicky tools wrapper for SystemC library.
 This library can be downloaded on Accelera website http://www.systemc.org/home/
 
+Quicky tools rely on SYSTEMC_INSTALL variable that should be set by user on directory containing include/systemc.h ( often /usr/local/systemc-<version> )
+
+Please see LICENSE for info on the license.
+
 #EOF

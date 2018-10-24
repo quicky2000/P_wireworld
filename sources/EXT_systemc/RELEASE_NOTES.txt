@@ -1,0 +1,27 @@
+# For users
+#------------
+
+EXT_systemc_v0.3:
+    - Check for missing environment variable
+
+EXT_systemc_v0.2:
+    - None
+
+EXT_systemc_v0.1:
+    - Initial version
+
+# Development flow
+#------------------
+
+EXT_systemc_v0.3:
+    - Check for missing environment variable
+    - Add Travis continuous integration
+    - Usable by CMake in CLion
+
+EXT_systemc_v0.2:
+    - Migration from Mercurial to Git
+
+EXT_systemc_v0.1:
+    - Initial version
+
+#EOF
