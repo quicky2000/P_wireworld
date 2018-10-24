@@ -1,4 +1,5 @@
 #!/bin/sh
+chmod a+x sources/quicky_tools/bin/*
 QUICKY_REPOSITORY=$PWD/sources
 export QUICKY_REPOSITORY
 cd $QUICKY_REPOSITORY/quicky_tools/setup
