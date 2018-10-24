@@ -1,0 +1,36 @@
+# For users
+#------------
+
+lib_bmp_v0.4:
+    - Check for missing environment variable
+
+lib_bmp_v0.3:
+    - Add output operator for colour types
+    - Add missing const accessors
+    - Add accessor to palette
+
+lib_bmp_v0.2:
+    - Correct bug in colour comparison operator
+    - Correct memory leak
+    - Add missing include and headers
+    - Add namespace
+
+lib_bmp_v0.1:
+    - Initial version
+
+# Development flow
+#------------------
+
+lib_bmp_v0.4:
+    - Check for missing environment variable
+
+lib_bmp_v0.3:
+    - None
+
+lib_bmp_v0.2:
+    - Migration from Mercurial to Git
+
+lib_bmp_v0.1:
+    - Initial version
+
+#EOF
