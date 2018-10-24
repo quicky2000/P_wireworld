@@ -25,11 +25,11 @@ exit 1
 fi
 
 # get the line corresponding to the key
-partial_result=`grep $1: $2`
+partial_result=`grep ^$1: $2`
 
 # Check if key was found
 if [ -z "$partial_result" ]
-then 
+then
 echo "Key $1 not found in file $2" > /dev/stderr
 exit 1
 fi

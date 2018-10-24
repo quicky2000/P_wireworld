@@ -18,8 +18,8 @@
 #-------------------------------------------------------------------------------
 
 if [ -z $QUICKY_DP ]
-then 
-echo "Environment variable QUICKY_DP is not set" > /dev/stderr 
+then
+echo "Environment variable QUICKY_DP is not set" > /dev/stderr
 result="dev"
 else
 result=`get_key $1 ${QUICKY_DP}`

@@ -25,7 +25,7 @@ fi
 
 # Check if QUICKY_DP environment variable is set
 if [ -z $QUICKY_DP ]
-then 
+then
 version="dev"
 else
 version=`get_object_version $1`

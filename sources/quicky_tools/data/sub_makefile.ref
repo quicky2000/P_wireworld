@@ -25,19 +25,57 @@
 <to_be_defined>_inc_dir:=$(<to_be_defined>_source_dir)/include
 <to_be_defined>_src_dir:=$(<to_be_defined>_source_dir)/src
 <to_be_defined>_obj_dir:=$(obj_dir)/<to_be_defined>
+<to_be_defined>_dyn_dir:=
+<to_be_defined>_dyn_inc_dir:=
 <to_be_defined>_infra_dir:=$(infra_dir)/<to_be_defined>
+
+# List of Bison files
+<to_be_defined>_y= $(wildcard $(<to_be_defined>_src_dir)/*.ypp)
+ifneq (,$(<to_be_defined>_y))
+<to_be_defined>_dyn_dir=$(dyn_dir)/<to_be_defined>
+endif
+<to_be_defined>_y_sources= $(notdir $(patsubst %.ypp, %.cpp,$(<to_be_defined>_y)))
+<to_be_defined>_y_generated_sources= $(addprefix $(<to_be_defined>_dyn_dir)/,$(notdir $(<to_be_defined>_y_sources)))
+<to_be_defined>_y_headers= $(notdir $(patsubst %.ypp, %.h,$(<to_be_defined>_y)))
+
+# List of Flex files
+<to_be_defined>_flex= $(wildcard $(<to_be_defined>_src_dir)/*.ll)
+ifneq (,$(<to_be_defined>_flex))
+ifeq (,$(<to_be_defined>_dyn_dir))
+<to_be_defined>_dyn_dir=$(dyn_dir)/<to_be_defined>
+endif
+endif
+<to_be_defined>_flex_sources= $(notdir $(patsubst %.ll, %.cpp,$(<to_be_defined>_flex)))
+<to_be_defined>_flex_generated_sources= $(addprefix $(<to_be_defined>_dyn_dir)/,$(notdir $(<to_be_defined>_flex_sources)))
+<to_be_defined>_flex_headers= $(notdir $(patsubst %.ll, %.h,$(<to_be_defined>_flex)))
 
 # List of files
 <to_be_defined>_src= $(wildcard $(<to_be_defined>_src_dir)/*.cpp)
+<to_be_defined>_cuda_src= $(wildcard $(<to_be_defined>_src_dir)/*.cu)
 #<to_be_defined>_headers= $(wildcard $(<to_be_defined>_source_dir)/src/*.h)
-<to_be_defined>_headers= $(wildcard $(<to_be_defined>_source_dir)/src/*.h) $(wildcard $(<to_be_defined>_source_dir)/src/*.hpp)
-<to_be_defined>_moc_candidates= $(shell grep -H Q_OBJECT $(<to_be_defined>_inc_dir)/*.h | cut -d":" -f1)
+<to_be_defined>_headers= $(wildcard $(<to_be_defined>_source_dir)/src/*.h) $(wildcard $(<to_be_defined>_source_dir)/src/*.hpp) $(wildcard $(<to_be_defined>_source_dir)/src/*.hh)
+ifeq (,$(wildcard  $(<to_be_defined>_inc_dir)/*.h*))
+<to_be_defined>_moc_candidates=
+else
+<to_be_defined>_moc_candidates= $(shell grep -H Q_OBJECT $(<to_be_defined>_inc_dir)/*.h* | cut -d":" -f1)
+endif
 <to_be_defined>_moc_sources= $(addprefix moc_, $(notdir $(patsubst %.h, %.cpp,$(<to_be_defined>_moc_candidates))))
 ifneq (,$(<to_be_defined>_moc_candidateses))
 $(error "Error empty moc candidates" $(<to_be_defined>_moc_sources))
 endif
-<to_be_defined>_obj=$(notdir  $(patsubst %.cpp, %.o,$(<to_be_defined>_moc_sources))) 
+<to_be_defined>_obj=$(notdir  $(patsubst %.cpp, %.o,$(<to_be_defined>_moc_sources)))
 <to_be_defined>_obj+=$(notdir  $(patsubst %.cpp, %.o,$(<to_be_defined>_src)))
+ifneq (,$(<to_be_defined>_cuda_src))
+ifeq ($(CC),gcc)
+<to_be_defined>_obj+=$(notdir $(patsubst %.cu, %.o,$(<to_be_defined>_cuda_src)))
+else
+<to_be_defined>_cuda_obj=$(addprefix $(<to_be_defined>_obj_dir)/, $(notdir $(patsubst %.cu, %.cu.o,$(<to_be_defined>_cuda_src))))
+<to_be_defined>_obj+=$(notdir $(patsubst %.cu, %.cu.o,$(<to_be_defined>_cuda_src)))
+<to_be_defined>_obj+=<to_be_defined>_cuda_link.o
+endif
+endif
+<to_be_defined>_obj+=$(notdir  $(patsubst %.cpp, %.o,$(<to_be_defined>_y_sources)))
+<to_be_defined>_obj+=$(notdir  $(patsubst %.cpp, %.o,$(<to_be_defined>_flex_sources)))
 <to_be_defined>_infra_infos:=$(<to_be_defined>_source_dir)/infra_infos.txt
 ifeq (,$(wildcard $(<to_be_defined>_infra_infos)))
 $(error "Object <to_be_defined> doesn't contain any infra_infos.txt file : $(<to_be_defined>_infra_infos)")
@@ -45,6 +83,14 @@ endif
 
 # Dependancies extraction
 <to_be_defined>_depend_list:= $(shell get_key depend $(<to_be_defined>_infra_infos))
+ifneq (,$(<to_be_defined>_cuda_src))
+ifneq ($(CC),gcc)
+<to_be_defined>_depend_list+=EXT_cuda
+NVCC_LDFLAGS+=$(shell get_key NVCC_LDFLAGS $(<to_be_defined>_infra_infos))
+NVCC_CFLAGS+=$(shell get_key NVCC_CFLAGS $(<to_be_defined>_infra_infos))
+NVCC_CC_CFLAGS+=$(shell get_key NVCC_CC_CFLAGS $(<to_be_defined>_infra_infos))
+endif
+endif
 <to_be_defined>_dep_files:=$(addprefix $(<to_be_defined>_infra_dir)/,$(notdir  $(patsubst %.cpp, %.dep,$(<to_be_defined>_src))))
 
 # Flags extraction
@@ -67,40 +113,84 @@ ifneq (,$(<to_be_defined>_dep_files))
 endif
 endif
 <to_be_defined>_ext_inc_dir := $(<to_be_defined>_inc_dir) $(foreach var_name,$(<to_be_defined>_depend_list) ,$(value $(var_name)_ext_inc_dir))
+ifneq (,$(<to_be_defined>_dyn_dir))
+<to_be_defined>_dyn_inc_dir+=-I$(<to_be_defined>_dyn_dir)
+endif
 <to_be_defined>_eval_result := $(addprefix -I, $(<to_be_defined>_ext_inc_dir))
 
 # Adding list of object files to global list of main target
 objects+=$(addprefix $(<to_be_defined>_obj_dir)/, $(<to_be_defined>_obj))
 
 components+=<to_be_defined>
+env_variables=$(shell get_key env_variables $(<to_be_defined>_infra_infos))
+env_variables_values=$(foreach var_name,$(env_variables) ,$(value $(var_name)))
+ifneq ($(words $(env_variables)), $(words $(env_variables_values)))
+env_variables_values=$(foreach var_name,$(env_variables) ,$(addsuffix =$(value $(var_name)), $(var_name)))
+$(error "Some environment variables are not defined : " $(env_variables_values))
+endif
 
+.SECONDARY:
+
+
+$(<to_be_defined>_dyn_dir)/%.cpp: $(<to_be_defined>_src_dir)/%.ll
+	@echo " -> Generating Flex scanner for " $@
+	@ flex -o$@ --header-file=$(notdir $(patsubst %.cpp, %.h,$@)) $< && mv $(notdir $(patsubst %.cpp, %.h,$@)) $(patsubst %.cpp, %.h,$@)
+
+$(<to_be_defined>_dyn_dir)/%.cpp: $(<to_be_defined>_src_dir)/%.ypp
+	@echo " -> Generating Bison parser for " $@
+	@ bison -o $@ $<
 
 $(<to_be_defined>_obj_dir)/moc_%.cpp: $(<to_be_defined>_inc_dir)/%.h
 	@echo " -> Creating moc file for " $@
 	@ mkdir -p $(<to_be_defined>_obj_dir)
 	@moc $(DEFINES) $(INCPATH) $< -o $@
 
-$(<to_be_defined>_obj_dir)/%.o : $(<to_be_defined>_obj_dir)/%.cpp 
+$(<to_be_defined>_obj_dir)/%.o : $(<to_be_defined>_dyn_dir)/%.cpp
+	@echo " -> Compiling generated file" $@
+	@ mkdir -p $(<to_be_defined>_dyn_dir)
+	@g++ -o $@ -c $< $(CFLAGS) -I$(<to_be_defined>_inc_dir) $(<to_be_defined>_eval_result) $(<to_be_defined>_dyn_inc_dir)
+
+$(<to_be_defined>_obj_dir)/%.o : $(<to_be_defined>_obj_dir)/%.cpp
 	@echo " -> Compiling generated file" $@
 	@ mkdir -p $(<to_be_defined>_obj_dir)
-	@g++ -Wall -o $@ -c $< $(CFLAGS) -I$(<to_be_defined>_inc_dir) $(<to_be_defined>_eval_result)
+	@g++ -o $@ -c $< $(CFLAGS) -I$(<to_be_defined>_inc_dir) $(<to_be_defined>_eval_result) $(<to_be_defined>_dyn_inc_dir)
 
 #Generic rule to compile cpp files of this object
-$(<to_be_defined>_obj_dir)/%.o : $(<to_be_defined>_src_dir)/%.cpp 
+$(<to_be_defined>_obj_dir)/%.o : $(<to_be_defined>_src_dir)/%.cpp
 	@echo " -> Compiling " $@
 	@ mkdir -p $(<to_be_defined>_obj_dir)
-	@g++ -Wall -o $@ -c $< $(CFLAGS) -I$(<to_be_defined>_inc_dir) $(<to_be_defined>_eval_result)
+	@g++ -o $@ -c $< $(CFLAGS) -I$(<to_be_defined>_inc_dir) $(<to_be_defined>_eval_result) $(<to_be_defined>_dyn_inc_dir)
+
+# Rules to compile CUDA files
+$(<to_be_defined>_obj_dir)/%.o : $(<to_be_defined>_src_dir)/%.cu
+	@echo " -> Compiling CUDA file as C++ " $@
+	@ mkdir -p $(<to_be_defined>_obj_dir)
+	@g++ -o $@ -x c++ -c $< $(CFLAGS) -I$(<to_be_defined>_inc_dir) $(<to_be_defined>_eval_result) $(<to_be_defined>_dyn_inc_dir)
+
+$(<to_be_defined>_obj_dir)/%.cu.o : $(<to_be_defined>_src_dir)/%.cu
+	@echo " -> Compiling for CUDA " $@
+	@ mkdir -p $(<to_be_defined>_obj_dir)
+	@nvcc -o $@ --device-c $(NVCC_CFLAGS) $< -Xcompiler "$(NVCC_CC_CFLAGS)" -I$(<to_be_defined>_inc_dir) $(<to_be_defined>_eval_result) $(<to_be_defined>_dyn_inc_dir)
+
+$(<to_be_defined>_obj_dir)/<to_be_defined>_cuda_link.o : $(<to_be_defined>_cuda_obj)
+	@echo " -> Linking for CUDA " $@
+	@nvcc --device-link $(NVCC_LDFLAGS) $^ --output-file $@
 
 #Rule to compile dependancies
-$(<to_be_defined>_infra_dir)/%.dep : $(<to_be_defined>_src_dir)/%.cpp  $(<to_be_defined>_infra_infos) #$(addsuffix .mk, $(addprefix infra/, $(<to_be_defined>_depend_list)))
+$(<to_be_defined>_infra_dir)/%.dep : $(<to_be_defined>_src_dir)/%.cpp  $(<to_be_defined>_infra_infos)  $(<to_be_defined>_dyn_dir) $(<to_be_defined>_y_generated_sources) $(<to_be_defined>_flex_generated_sources) #$(addsuffix .mk, $(addprefix infra/, $(<to_be_defined>_depend_list)))
 	@ echo " -> Computing  dependancies for component <to_be_defined> : file $*.cpp"
 	@ mkdir -p $(<to_be_defined>_infra_dir)
-	@g++ -Wall -c $< $(<to_be_defined>_eval_result) $(CFLAGS) -MM -o $@
+	@g++ -Wall -c $< $(<to_be_defined>_eval_result) $(CFLAGS) -MM -o $@  $(<to_be_defined>_dyn_inc_dir)
 	@sed -e "s,$*\.o,obj/<to_be_defined>/$*.o $@,g" -i $@
 
 $(<to_be_defined>_obj_dir): #obj
 	@ echo " -> Preparing  obj component <to_be_defined>"
 	@mkdir -p $@
+
+$(<to_be_defined>_dyn_dir): dyn
+	@ echo " -> Preparing  dyn component <to_be_defined>"
+	@mkdir -p $@
+	@touch $@/.dummy.h
 
 $(<to_be_defined>_infra_dir): #infra
 	@ echo " -> Preparing  infra component <to_be_defined>"

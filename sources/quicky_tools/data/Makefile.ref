@@ -15,27 +15,43 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>
 #-------------------------------------------------------------------------------
+# Object location in repository
+<to_be_defined>_source_dir:=$(shell search_object <to_be_defined>)
+<to_be_defined>_infra_infos:=$(<to_be_defined>_source_dir)/infra_infos.txt
+ifeq (,$(wildcard $(<to_be_defined>_infra_infos)))
+$(error "Object <to_be_defined> doesn't contain any infra_infos.txt file : $(<to_be_defined>_infra_infos)")
+endif
 
-objects= 
+objects=
 components:=
 sourced_makefiles:=
 
 bin_dir:=bin
 infra_dir:=infra
 obj_dir:=obj
+dyn_dir:=dyn
 
 #---------
 #- FLAGS -
 #---------
 LDFLAGS=
 CFLAGS=-Wall -g
+CFLAGS+=$(shell get_key MAIN_CFLAGS $(<to_be_defined>_infra_infos))
+SELFTEST_FLAG=-D$(shell echo <to_be_defined> | tr a-z A-Z)_SELF_TEST
 
 ifeq (library,$(MAKECMDGOALS))
 CFLAGS+= -fPIC
 endif
 
+ifeq (test,$(MAKECMDGOALS))
+CFLAGS+=$(SELFTEST_FLAG)
+endif
+
 .PHONY: all
 all : $(bin_dir)/<to_be_defined>.exe
+
+.PHONY: test
+test : $(bin_dir)/<to_be_defined>.exe
 
 .PHONY: library
 library : $(bin_dir)/lib<to_be_defined>.so
@@ -58,6 +74,9 @@ infra/%.mk:$(QUICKY_TOOLS)/data/sub_makefile.ref
 
 bin:
 	mkdir bin
+
+dyn:
+	mkdir dyn
 
 obj:
 	mkdir obj

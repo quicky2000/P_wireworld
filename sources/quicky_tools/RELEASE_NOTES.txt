@@ -1,0 +1,39 @@
+# For users
+#------------
+
+quicky_tools_v1.3:
+    - Add support of CUDA
+    - Add check of environment variables
+    - Use different CFLAGS when object is used standalone or inside project
+    - Add support several CUDA cu files
+    - Add support of self tests
+    - Improve clean on MinGW
+
+quicky_tools_v1.2:
+    - Add support of flex and bison
+
+quicky_tools_v1.1:
+    - Add support of QT moc
+    - Add support of hpp files
+    - Improve support of diamond dependancies
+    - Propagate CFLAGS
+
+quicky_tools_v1.0:
+    - Initial version
+
+# Development flow
+#------------------
+
+quicky_tools_v1.3:
+    - Check for missing environment variable
+
+quicky_tools_v1.2:
+    - None
+
+quicky_tools_v1.1:
+    - Migration from Mercurial to Git
+
+quicky_tools_v1.0:
+    - Initial version
+
+#EOF
