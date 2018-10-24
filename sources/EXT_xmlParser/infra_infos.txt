@@ -1,3 +1,5 @@
+MAIN_CFLAGS:
 depend:
 CFLAGS:
 LDFLAGS:
+env_variables:
