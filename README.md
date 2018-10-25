@@ -10,7 +10,11 @@ Continuous integration with [Travis-Ci](https://travis-ci.org/quicky2000/P_wirew
 . setup.sh
 
 ## Build project
+### With quicky_tools
 . build.sh
+
+### With CMake
+. build_cmake.sh
 
 ## Subtrees
 

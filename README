@@ -11,7 +11,11 @@ For more information please refer to https://www.logre.eu/wiki/Projet_Wireworld
 
 #- Build project
 #----------------
+# With quicky_tools
 . build.sh
+
+# With CMake
+. build_cmake.sh
 
 # Subtrees
 #----------
