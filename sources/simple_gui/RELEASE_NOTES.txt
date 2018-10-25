@@ -1,0 +1,34 @@
+# For users
+#------------
+
+simple_gui_v0.4:
+    - Introduce Auto refresh
+
+simple_gui_v0.3:
+    - Enclose code in namespace
+    - Rename Came Clase methods to have coherent naming
+
+simple_gui_v0.2:
+    - Add surface blittering
+    - Add methods to get info about screen mode
+
+simple_gui_v0.1:
+    - Initial version
+
+# Development flow
+#------------------
+
+simple_gui_v0.4:
+    - Add support of CMake
+    - Add support of Travis Continuous Integration
+
+simple_gui_v0.3:
+    - None
+
+simple_gui_v0.2:
+    - Migration from Mercurial to Git
+
+simple_gui_v0.1:
+    - Initial version
+
+#EOF
