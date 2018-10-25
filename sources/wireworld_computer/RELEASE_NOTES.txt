@@ -1,0 +1,20 @@
+# For users
+#------------
+
+wireworld_computer_v1.1:
+    - None
+
+wireworld_computer_v1.0:
+    - Initial version
+
+# Development flow
+#------------------
+
+wireworld_computer_v1.1:
+    - Add support of CMake
+    - Add support of Travis Continuous Integration
+
+wireworld_computer_v1.0:
+    - Initial version
+
+#EOF

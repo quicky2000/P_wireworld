@@ -1,0 +1,33 @@
+sudo: required
+dist: trusty
+language: cpp
+compiler:
+  - gcc
+#  - clang
+
+
+before_install:
+  - MY_LOCATION=`pwd`
+  - echo $MY_LOCATION
+  - mkdir ../repositories
+  - cd ..
+  - mv $MY_LOCATION repositories
+  - QUICKY_REPOSITORY=`pwd`/repositories
+  - export QUICKY_REPOSITORY
+  - MY_LOCATION=`pwd`
+  - echo $MY_LOCATION
+  - cd $MY_LOCATION/repositories
+  - git clone https://github.com/quicky2000/quicky_tools.git
+  - git clone https://github.com/quicky2000/quicky_exception.git
+  - git clone https://github.com/quicky2000/parameter_manager.git
+  - cd quicky_tools/setup
+  - . setup.sh
+  - cd $MY_LOCATION
+  - chmod a+x repositories/quicky_tools/bin/*
+  - mkdir build
+  - cd build
+
+script:
+  - generate_makefile wireworld_computer
+  - make
+#EOF
