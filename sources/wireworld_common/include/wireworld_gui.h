@@ -25,7 +25,7 @@
 
 namespace wireworld_common
 {
-  class wireworld_gui: public simple_gui
+  class wireworld_gui: public simple_gui::simple_gui
   {
   public:
     inline wireworld_gui(void);
@@ -53,28 +53,28 @@ namespace wireworld_common
     //------------------------------------------------------------------------------
     void wireworld_gui::createWindow(uint32_t p_width,uint32_t p_height)
     {
-      simple_gui::createWindow(p_width,p_height);
-      m_copper_color = getColorCode(255,160,0);
-      m_tail_color = getColorCode(0,160,255);
-      m_electron_color = getColorCode(255,255,255);
+      simple_gui::simple_gui::create_window(p_width,p_height);
+      m_copper_color = get_color_code(255,160,0);
+      m_tail_color = get_color_code(0,160,255);
+      m_electron_color = get_color_code(255,255,255);
     }
 
     //------------------------------------------------------------------------------
     void wireworld_gui::displayCopper(uint32_t p_x,uint32_t p_y)
     {
-      setPixel(p_x,p_y,m_copper_color);
+      set_pixel(p_x,p_y,m_copper_color);
     }
 
     //------------------------------------------------------------------------------
     void wireworld_gui::displayTail(uint32_t p_x,uint32_t p_y)
     {
-      setPixel(p_x,p_y,m_tail_color);
+      set_pixel(p_x,p_y,m_tail_color);
     }
 
     //------------------------------------------------------------------------------
     void wireworld_gui::displayElectron(uint32_t p_x,uint32_t p_y)
     {
-      setPixel(p_x,p_y,m_electron_color);
+      set_pixel(p_x,p_y,m_electron_color);
     }
 
     //------------------------------------------------------------------------------
@@ -83,13 +83,13 @@ namespace wireworld_common
       switch(p_state)
         {
 	case wireworld_types::t_cell_state::COPPER:
-          setPixel(p_x,p_y,m_copper_color);
+          set_pixel(p_x,p_y,m_copper_color);
 	  break;
 	case wireworld_types::t_cell_state::TAIL:
-          setPixel(p_x,p_y,m_tail_color);
+          set_pixel(p_x,p_y,m_tail_color);
 	  break;
 	case wireworld_types::t_cell_state::ELECTRON:
-          setPixel(p_x,p_y,m_electron_color);
+          set_pixel(p_x,p_y,m_electron_color);
 	  break;
         default:
 	  {

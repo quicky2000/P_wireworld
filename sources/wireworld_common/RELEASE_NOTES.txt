@@ -1,0 +1,20 @@
+# For users
+#------------
+
+wireworld_common_v1.1:
+    - Align with simple_gui
+
+wireworld_common_v1.0:
+    - Initial version
+
+# Development flow
+#------------------
+
+wireworld_common_v1.1:
+    - Add support of CMake
+    - Add support of Travis Continuous Integration
+
+wireworld_common_v1.0:
+    - Initial version
+
+#EOF

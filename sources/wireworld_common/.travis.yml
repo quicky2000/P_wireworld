@@ -1,0 +1,40 @@
+sudo: required
+dist: trusty
+language: cpp
+compiler:
+  - gcc
+#  - clang
+
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install -y libsdl1.2-dev
+  - MY_LOCATION=`pwd`
+  - echo $MY_LOCATION
+  - mkdir ../repositories
+  - cd ..
+  - mv $MY_LOCATION repositories
+  - QUICKY_REPOSITORY=`pwd`/repositories
+  - export QUICKY_REPOSITORY
+  - MY_LOCATION=`pwd`
+  - echo $MY_LOCATION
+  - cd $MY_LOCATION/repositories
+  - git clone https://github.com/quicky2000/quicky_tools.git
+  - git clone https://github.com/quicky2000/quicky_exception.git
+  - git clone https://github.com/quicky2000/parameter_manager.git
+  - git clone https://github.com/quicky2000/quicky_utils.git
+  - git clone https://github.com/quicky2000/wireworld.git
+  - git clone https://github.com/quicky2000/simple_gui.git
+  - git clone https://github.com/quicky2000/EXT_xmlParser.git
+  - cd quicky_tools/setup
+  - . setup.sh
+  - cd $MY_LOCATION
+  - chmod a+x repositories/quicky_tools/bin/*
+  - mkdir build
+  - cd build
+
+script:
+# We are building wireworld because at this time wireworld_common has no specific test
+  - generate_makefile wireworld
+  - make
+#EOF

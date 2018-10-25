@@ -1,3 +1,4 @@
 depend:parameter_manager simple_gui EXT_xmlParser
 CFLAGS:
 LDFLAGS:
+env_variables:
