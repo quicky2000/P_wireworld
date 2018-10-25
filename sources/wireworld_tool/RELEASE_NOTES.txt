@@ -1,0 +1,20 @@
+# For users
+#------------
+
+wireworld_tool_v0.2:
+    - None
+
+wireworld_tool_v0.1:
+    - Initial version
+
+# Development flow
+#------------------
+
+wireworld_tool_v0.2:
+    - Add support of CMake
+    - Add support of Travis Continuous Integration
+
+wireworld_tool_v0.1:
+    - Initial version
+
+#EOF
