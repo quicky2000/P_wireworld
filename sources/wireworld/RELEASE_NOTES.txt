@@ -1,0 +1,27 @@
+# For users
+#------------
+
+wireworld_v1.1:
+    - None
+
+wireworld_v1.0:
+    - Improve generation number display
+    - Simulaiton can be stopped using CTRL+C
+
+wireworld_v0.1:
+    - Initial version
+
+# Development flow
+#------------------
+
+wireworld_v1.1:
+    - Add support of CMake
+    - Add support of Travis Continuous Integration
+
+wireworld_v1.0:
+    - None
+
+wireworld_v0.1:
+    - Initial version
+
+#EOF
