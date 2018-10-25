@@ -26,6 +26,13 @@
 #include <iomanip>
 #include <cmath>
 
+#ifdef __MINGW32__ // seems to be defined by both mingw-32 nd mingw-64
+#include <_mingw.h> // private MinGW header
+# ifndef __MINGW64_VERSION_MAJOR // best way to check for mingw-w64 vs mingw-32
+#define ffs(x) __builtin_ffs(x)
+# endif // __MINGW64_VERSION_MAJOR
+#endif // __MINGW32__
+
 namespace quicky_utils
 {
   template <class T>

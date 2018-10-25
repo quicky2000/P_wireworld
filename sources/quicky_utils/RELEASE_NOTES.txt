@@ -1,0 +1,31 @@
+# For users
+#------------
+
+quicky_utils_v0.3:
+    - Improve MinGW support
+    - Introduce fract type for fractionnal computation
+    - Introduce safe integer types
+    - Introduce extensible integer types
+
+quicky_utils_v0.2:
+    - Quicky_bitfield become template, choice of reset values, assignement operator, AND operator
+    - Improve MinGW support
+    -
+
+quicky_utils_v0.1:
+    - Initial version
+
+# Development flow
+#------------------
+
+quicky_utils_v0.3:
+    - Add support of CMake
+    - Add support of Travis Continuous Integration
+
+quicky_utils_v0.2:
+    - None
+
+quicky_utils_v0.1:
+    - Initial version
+
+#EOF
