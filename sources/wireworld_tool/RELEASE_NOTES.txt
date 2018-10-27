@@ -2,7 +2,7 @@
 #------------
 
 wireworld_tool_v0.2:
-    - None
+    - Add support of LLVM 9.1.0
 
 wireworld_tool_v0.1:
     - Initial version

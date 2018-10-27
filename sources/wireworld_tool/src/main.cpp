@@ -44,14 +44,14 @@ int main(int argc,char ** argv)
 
 
   ofstream l_output_h_file((l_file_name_without_extension+".h").c_str());
-  if(l_output_h_file == NULL)
+  if(!l_output_h_file.is_open())
     {
       std::cout << "ERROR : Unable to open output file" << std::endl ;
       exit(-1);
     }
 
   ofstream l_output_text_file((l_file_name_without_extension+".txt").c_str());
-  if(l_output_text_file == NULL)
+  if(!l_output_text_file.is_open())
     {
       std::cout << "ERROR : Unable to open output file" << std::endl ;
       exit(-1);
