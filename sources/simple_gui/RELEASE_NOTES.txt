@@ -3,6 +3,8 @@
 
 simple_gui_v0.4:
     - Introduce Auto refresh
+    - Add support of MacOS
+    - Add support of LLVM 9.1.0
 
 simple_gui_v0.3:
     - Enclose code in namespace
@@ -19,6 +21,7 @@ simple_gui_v0.1:
 #------------------
 
 simple_gui_v0.4:
+    - Add support of MacOS
     - Add support of CMake
     - Add support of Travis Continuous Integration
 

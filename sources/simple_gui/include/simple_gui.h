@@ -121,7 +121,7 @@ namespace simple_gui
       {
 	for(uint32_t l_y = p_y * m_coef;l_y < m_coef *(p_y + 1);++l_y)
 	  {
-	    if(l_x >= 0 && l_x < m_width && l_y >= 0 && l_y < m_height)
+	    if(l_x < m_width && l_y < m_height)
 	      {
 		uint32_t *l_bufp = (uint32_t *)m_screen->pixels + l_y * m_screen->pitch/4 + l_x;
 		*l_bufp = p_color;

@@ -166,7 +166,7 @@ namespace simple_gui
       {
 	uint32_t l_x = x1;
 	uint32_t l_y = y1;
-	if(abs(x2-x1) == abs(y2-y1))
+	if(abs(((int64_t)x2)-((int64_t)x1)) == abs(((int64_t)y2)-((int64_t)y1)))
 	  {
 	    while(l_x != x2)
 	      {

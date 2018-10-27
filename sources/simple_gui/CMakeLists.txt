@@ -21,6 +21,10 @@ set(DEPENDANCY_LIST "quicky_exception")
 #------------------------------
 set(DEPENDANCY_OBJECTS "")
 set(LINKED_LIBRARIES "-lSDL")
+if("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+  set(LINKED_LIBRARIES "${LINKED_LIBRARIES} -lSDLmain -framework Cocoa")
+endif("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+
 #iterate on dependancies
 foreach(DEPENDANCY_ITEM IN ITEMS ${DEPENDANCY_LIST})
     message("${PROJECT_NAME} need dependancy ${DEPENDANCY_ITEM}")

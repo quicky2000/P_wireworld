@@ -1,14 +1,20 @@
-sudo: required
-dist: trusty
-language: cpp
-compiler:
-  - gcc
-#  - clang
+matrix:
+  include:
+    - os: linux
+      sudo: required
+      dist: trusty
+      compiler: gcc
+    - os: osx
 
+language: cpp
 
 before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y libsdl1.2-dev
+# SDL1.2 specific part
+#-----------------------
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; brew install sdl; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update; sudo apt-get install -y libsdl1.2-dev; fi
+# End of SDL1.2 specific part
+#-----------------------
   - MY_LOCATION=`pwd`
   - mkdir ../repositories
   - cd ..
@@ -27,7 +33,6 @@ before_install:
   - cd build
 
 script:
-  - generate_makefile simple_gui
-  - make test
-  - ./bin/simple_gui.exe
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cmake $QUICKY_REPOSITORY/simple_gui; make; ./simple_gui; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then generate_makefile simple_gui; make test; ./bin/simple_gui.exe; fi
 #EOF
