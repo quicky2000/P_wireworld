@@ -1,15 +1,21 @@
-sudo: required
-dist: trusty
-language: cpp
-compiler:
-  - gcc
-#  - clang
+matrix:
+  include:
+    - os: linux
+      sudo: required
+      dist: trusty
+      compiler: gcc
+    - os: osx
 
+language: cpp
 
 before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y libsdl1.2-dev
   - MY_LOCATION=`pwd`
+# SDL1.2 specific part
+#-----------------------
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; brew install sdl; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update; sudo apt-get install -y libsdl1.2-dev; fi
+# End of SDL1.2 specific part
+#-----------------------
 # SystemC specific part
 #-----------------------
   - wget http://accellera.org/images/downloads/standards/systemc/systemc-2.3.1.tgz
@@ -33,10 +39,11 @@ before_install:
   - . setup.sh
   - cd $MY_LOCATION
 # SystemC part
-  - LD_LIBRARY_PATH=$SYSTEMC_INSTALL/lib-linux64:$LD_LIBRARY_PATH
+  - LD_LIBRARY_PATH=$SYSTEMC_INSTALL/`ls -1 ${SYSTEMC_INSTALL}/ | grep lib`:$LD_LIBRARY_PATH
   - export LD_LIBRARY_PATH
 
 script:
 # Build
-  - . build.sh
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then . build_cmake.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then . build.sh; fi
 #EOF
