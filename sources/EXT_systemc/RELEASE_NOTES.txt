@@ -3,6 +3,7 @@
 
 EXT_systemc_v0.3:
     - Check for missing environment variable
+    - Add support of MacOS
 
 EXT_systemc_v0.2:
     - None
@@ -17,6 +18,7 @@ EXT_systemc_v0.3:
     - Check for missing environment variable
     - Add Travis continuous integration
     - Usable by CMake in CLion
+    - Add support of MacOS
 
 EXT_systemc_v0.2:
     - Migration from Mercurial to Git

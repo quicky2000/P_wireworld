@@ -40,15 +40,20 @@ if("${PC_SYSTEMC}" STREQUAL "")
     find_path(SystemC_INCLUDE_DIR
               NAMES systemc.h
               PATHS ${SYSTEMC_PATHS}
-              HINTS {SYSTEMC_HINTS}
+              HINTS ${SYSTEMC_HINTS}
               PATH_SUFFIXES include
               DOC "Variable storing the location of SystemC header")
+
+    set(ARCH_SUFFIX "linux64")
+    if("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+      set(ARCH_SUFFIX "macosx64")
+    endif("${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
 
     find_library(SystemC_LIBRARY
               NAMES systemc
               PATHS ${SYSTEMC_PATHS}
-              HINTS {SYSTEMC_HINTS}
-              PATH_SUFFIXES lib-linux64
+              HINTS ${SYSTEMC_HINTS}
+              PATH_SUFFIXES "lib-${ARCH_SUFFIX}"
               DOC "Variable storing the location of SystemC library")
     set(SystemC_VERSION ${SystemC_FIND_VERSION})
     include(FindPackageHandleStandardArgs)

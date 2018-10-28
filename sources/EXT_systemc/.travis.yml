@@ -1,10 +1,12 @@
-sudo: required
-dist: trusty
-language: cpp
-compiler:
-  - gcc
-#  - clang
+matrix:
+  include:
+    - os: linux
+      sudo: required
+      dist: trusty
+      compiler: gcc
+    - os: osx
 
+language: cpp
 
 before_install:
   - MY_LOCATION=`pwd`
@@ -14,6 +16,8 @@ before_install:
   - QUICKY_REPOSITORY=`pwd`/repositories
   - export QUICKY_REPOSITORY
   - MY_LOCATION=`pwd`
+# SystemC specific part
+#-----------------------
   - wget http://accellera.org/images/downloads/standards/systemc/systemc-2.3.1.tgz
   - tar -zxvf systemc-2.3.1.tgz
   - cd systemc-2.3.1
@@ -24,8 +28,10 @@ before_install:
   - ../configure
   - make -j
   - make install
-  - LD_LIBRARY_PATH=${SYSTEMC_INSTALL}/lib-linux64:${LD_LIBRARY_PATH}
+  - LD_LIBRARY_PATH=${SYSTEMC_INSTALL}/`ls -1 ${SYSTEMC_INSTALL}/ | grep lib`:${LD_LIBRARY_PATH}
   - export LD_LIBRARY_PATH
+# End of SystemC specific part
+#-----------------------
   - cd $MY_LOCATION/repositories
   - git clone https://github.com/quicky2000/quicky_tools.git
   - cd quicky_tools/setup
@@ -36,7 +42,6 @@ before_install:
   - cd build
 
 script:
-  - generate_makefile EXT_systemc
-  - make test
-  - ./bin/EXT_systemc.exe
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then cmake $QUICKY_REPOSITORY/EXT_systemc; make; ./test_EXT_systemc; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then generate_makefile EXT_systemc; make test; ./bin/EXT_systemc.exe; fi
 #EOF
