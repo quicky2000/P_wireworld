@@ -5,6 +5,25 @@
 P_wireworld is the integration repository of my experiments around wireworld cellular automaton
 For more information please refer to https://www.logre.eu/wiki/Projet_Wireworld
 
+#- Requirements
+#---------------
+Library SDL1.2
+  Installation on Linux: sudo apt-get update; sudo apt-get install -y libsdl1.2-dev
+  Installation on MacOS: brew update; brew install sdl
+
+Library SystemC 2.3.1
+  wget http://accellera.org/images/downloads/standards/systemc/systemc-2.3.1.tgz
+  tar -zxvf systemc-2.3.1.tgz
+  SYSTEMC_INSTALL=${MY_LOCATION}/systemc_install
+  export SYSTEMC_INSTALL
+  mkdir $SYSTEMC_INSTALL
+  cd systemc-2.3.1
+  mkdir objdir
+  cd objdir/
+  ../configure --prefix=$SYSTEMC_INSTALL
+  make -j
+  make install
+
 #- Setup project
 #----------------
 . setup.sh
